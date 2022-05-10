@@ -7,8 +7,7 @@ namespace TroboBot.Domain
         public bool Ativo { get; set; }
         public CancellationTokenSource CancellationToken = new();
         public abstract string? LinkUrl { get; }
-
-        private PeriodicTimer timer;
+        private PeriodicTimer? timer;
 
         public async Task Inicializar(ChromeDriver chromeDriver, string login, string senha)
         {
@@ -25,14 +24,14 @@ namespace TroboBot.Domain
 
             CancellationToken.Token.ThrowIfCancellationRequested();
 
-            Random random = new Random();
+            Random random = new();
             double minutosAdiconais = random.NextDouble() * 2;
 
             var tempo = TimeSpan.FromMinutes(15 * minutosAdiconais);
 
-            timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
+            timer = new PeriodicTimer(tempo);
 
-            Lurk lurks = new Lurk();
+            Lurk lurks = new();
 
             while (await timer.WaitForNextTickAsync())
             {

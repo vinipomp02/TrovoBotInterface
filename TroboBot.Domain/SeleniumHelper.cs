@@ -5,7 +5,7 @@ namespace TroboBot.Domain
 {
     internal class SeleniumHelper
     {
-        public ChromeDriver chromeDriver { get; }
+        private ChromeDriver chromeDriver { get; }
 
         public SeleniumHelper(ChromeDriver chromeDriver)
         {
@@ -13,29 +13,24 @@ namespace TroboBot.Domain
         }
         public void Habilitar(ChromeDriver chromeDriver)
         {
+            //Isso precisa melhorar. Thread.Sleep significa que o código não está executando de forma correta. Precisa ter algo para esperar de fato acontecer. 
             Thread.Sleep(6000);
 
             By botaoChat = By.XPath("//*[@id='__layout']/div/div/div[2]/div/section/div[3]/div/section/section/div/button");
-
-            if (ElementoEstaPresente(chromeDriver, botaoChat))
-            {
-                chromeDriver.FindElement(botaoChat).Click();
-            }
-
             By botaoAdulto = By.XPath("/html/body/div[1]/div/div/div/div[2]/div/div/div[1]/div[1]/div[1]/div/div[2]/div[3]/section/div/button[2]");
 
+            if (ElementoEstaPresente(chromeDriver, botaoChat))
+                chromeDriver.FindElement(botaoChat).Click();
+
             if (ElementoEstaPresente(chromeDriver, botaoAdulto))
-            {
                 chromeDriver.FindElement(botaoAdulto).Click();
-            }
         }
 
         public bool ElementoEstaPresente(ChromeDriver chromeDriver, By by)
         {
             try
             {
-                chromeDriver.FindElement(by);
-                return true;
+                return chromeDriver.FindElement(by) != null;
             }
             catch
             {
@@ -47,9 +42,8 @@ namespace TroboBot.Domain
         {
             By tagLive = By.XPath("//*[@id='live-fullscreen']/div[3]/div[3]/section/div[1]/span");
             if (ElementoEstaPresente(chromeDriver, tagLive))
-            {
                 return chromeDriver.FindElement(tagLive).Text.Equals("LIVE");
-            }
+            
 
             return false;
         }

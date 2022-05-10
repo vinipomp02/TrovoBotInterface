@@ -20,11 +20,12 @@ namespace TroboBot.Domain
 
         public void AbrirTelaDeLogin()
         {
+            //Mesma coisa do comentário anterior. Ter thread.sleep significa que não está respeitando comportamento da página.
             Thread.Sleep(6000);
             By iconeLogin = By.XPath("//*[@id='__layout']/div/nav/div[3]/div[4]/div/div/img");
-            chromeDriver.FindElement(iconeLogin).Click();
-
             By botaoLogin = By.XPath("//*[@id='__layout']/div/nav/div[3]/div[4]/div[2]/div/ul/li[8]/button");
+
+            chromeDriver.FindElement(iconeLogin).Click();
             chromeDriver.FindElement(botaoLogin).Click();
         }
 
